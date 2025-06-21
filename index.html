@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="utf-8">
   <title>エナガ・SAPPORO支援記録システム v3.5</title>
-  <meta charset="utf-8" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>📝</text></svg>">
   <style>
     body {
@@ -17,7 +17,7 @@
       margin: 0 auto;
       background: white;
       border-radius: 15px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
       overflow: hidden;
     }
     .header {
@@ -39,6 +39,13 @@
     .form-section {
       padding: 40px;
     }
+    .instructions {
+      background: #e8f6f3;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 25px;
+      border-left: 4px solid #27ae60;
+    }
     .form-group {
       margin-bottom: 25px;
     }
@@ -59,12 +66,6 @@
       font-size: 14px;
       line-height: 1.5;
       resize: vertical;
-      transition: border-color 0.3s ease;
-    }
-    textarea:focus {
-      outline: none;
-      border-color: #00bcd4;
-      box-shadow: 0 0 0 3px rgba(0, 188, 212, 0.1);
     }
     .btn {
       background: linear-gradient(45deg, #00838f, #0097a7);
@@ -74,30 +75,20 @@
       font-size: 1.1em;
       border-radius: 8px;
       cursor: pointer;
-      transition: transform 0.2s ease;
       font-weight: 600;
       display: block;
       margin: 20px auto;
     }
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    .loading {
+      text-align: center;
+      display: none;
     }
-    .instructions {
-      background: #e8f6f3;
+    .result {
+      margin-top: 30px;
       padding: 20px;
+      background: #f8f9fa;
       border-radius: 8px;
-      margin-bottom: 25px;
-      border-left: 4px solid #27ae60;
-    }
-    .instructions h3 {
-      margin-top: 0;
-      color: #27ae60;
-      font-weight: bold;
-    }
-    .instructions p {
-      color: #2c3e50;
-      font-weight: 500;
+      border-left: 4px solid #00bcd4;
     }
   </style>
 </head>
@@ -107,29 +98,54 @@
       <h1>エナガ・SAPPORO</h1>
       <p>支援記録補助システム v3.5</p>
     </div>
-
     <div class="form-section">
       <div class="instructions">
         <h3>📋 使用方法</h3>
-        <p><strong>1. LINEのやり取りをコピーして下のテキストエリアに貼り付けてください</strong></p>
-        <p style="margin-left: 15px;">▶ 支援記録を作成したい日付の、作業開始～作業終了までの全LINEを選択してください。</p>
-        <p style="margin-left: 15px;">▶ 日付・時間からコピーをしてください。誤って前日分や、当日途中分の分を貼り付けた<br>　　場合、正しくない結果が表示される可能性があります</p>
-        <p><strong>2. 「支援記録を生成」ボタンをクリック</strong></p>
-        <p><strong>3. 生成された記録をコピーしてご利用ください</strong></p>
-        <p style="margin-left: 15px;">▶ あくまでも入力補助ツールです。誤りがないかを必ずチェックし、不適切な表現や誤った<br>　　結果が表示されている箇所については、手動で直してからknowbeへ記録してください</p>
+        <p><strong>1.</strong> LINEのやりとりをコピーして下のテキストエリアに貼り付け</p>
+        <p><strong>2.</strong> 「支援記録を生成」ボタンを押す</p>
+        <p><strong>3.</strong> 生成された記録をコピー</p>
       </div>
-
       <div class="form-group">
         <label for="lineData">LINEデータ入力:</label>
-        <textarea id="lineData" placeholder="LINEのやり取りをここに貼り付けてください...
-
-例:
-2025-06-20 09:59 利用者名 １０時に作業始めます 体調良です
-2025-06-20 10:10 支援員名 おはようございます！！..."></textarea>
+        <textarea id="lineData" placeholder="LINEのやりとりをここに貼り付け...\n\n2025-06-20 09:59 利用者名 10時に作業始めます  体調良です\n2025-06-20 10:10 支援員名 おはようございます!!..."></textarea>
       </div>
-
-      <button class="btn" onclick="alert('ここに支援記録生成機能を実装')">📝 支援記録を生成</button>
+      <button class="btn" onclick="generateRecord()">📝 支援記録を生成</button>
+      <div class="loading" id="loading">
+        <p>生成中...</p>
+      </div>
+      <div class="result" id="result" style="display:none">
+        <h3>✅ 生成された支援記録</h3>
+        <div id="recordOutput"></div>
+        <button class="btn" onclick="copyResult()">📋 コピー</button>
+      </div>
     </div>
   </div>
+
+  <script>
+    async function generateRecord() {
+      const lineData = document.getElementById('lineData').value.trim();
+      if (!lineData) return alert('LINEデータを入力してください');
+      document.getElementById('loading').style.display = 'block';
+      document.getElementById('result').style.display = 'none';
+      try {
+        const res = await fetch('/api/generate-record', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ lineData })
+        });
+        const data = await res.json();
+        document.getElementById('recordOutput').innerText = data.result || '[出力失敗]';
+        document.getElementById('result').style.display = 'block';
+      } catch (err) {
+        alert('API通信でエラーが発生しました');
+      } finally {
+        document.getElementById('loading').style.display = 'none';
+      }
+    }
+    function copyResult() {
+      const text = document.getElementById('recordOutput').innerText;
+      navigator.clipboard.writeText(text).then(() => alert('コピーしました！'));
+    }
+  </script>
 </body>
 </html>
