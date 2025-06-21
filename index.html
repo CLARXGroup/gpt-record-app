@@ -1,485 +1,135 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>エナガ・SAPPORO支援記録システム v3.5</title>
-    <meta charset="utf-8">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>📝</text></svg>">
-    <style>
-        body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #00bcd4 0%, #26c6da 50%, #4dd0e1 100%);
-            margin: 0;
-            padding: 20px;
-            min-height: 100vh;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            overflow: hidden;
-        }
-        .header {
-            background: linear-gradient(45deg, #00838f, #0097a7);
-            color: white;
-            padding: 30px;
-            text-align: center;
-        }
-        .header h1 {
-            margin: 0;
-            font-size: 2.5em;
-            font-weight: 300;
-        }
-        .header p {
-            margin: 10px 0 0 0;
-            opacity: 0.9;
-            font-size: 1.1em;
-        }
-        .form-section {
-            padding: 40px;
-        }
-        .form-group {
-            margin-bottom: 25px;
-        }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #2c3e50;
-            font-size: 1.1em;
-        }
-        textarea {
-            width: 100%;
-            min-height: 200px;
-            padding: 15px;
-            border: 2px solid #e8e8e8;
-            border-radius: 8px;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            line-height: 1.5;
-            resize: vertical;
-            transition: border-color 0.3s ease;
-        }
-        textarea:focus {
-            outline: none;
-            border-color: #00bcd4;
-            box-shadow: 0 0 0 3px rgba(0, 188, 212, 0.1);
-        }
-        .btn {
-            background: linear-gradient(45deg, #00838f, #0097a7);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            font-size: 1.1em;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-            font-weight: 600;
-            display: block;
-            margin: 20px auto;
-        }
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        }
-        .result {
-            margin-top: 30px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            border-left: 4px solid #00bcd4;
-        }
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 20px;
-        }
-        .spinner {
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #00bcd4;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 10px;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .instructions {
-            background: #e8f6f3;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 25px;
-            border-left: 4px solid #27ae60;
-        }
-        .instructions h3 {
-            margin-top: 0;
-            color: #27ae60;
-            font-weight: bold;
-        }
-        .instructions p {
-            color: #2c3e50;
-            font-weight: 500;
-        }
-        .warning-box {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-        .warning-box h4 {
-            color: #d68910;
-            margin-top: 0;
-        }
-        .alert-box {
-            background: #ffebee;
-            border: 2px solid #f44336;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-        .alert-box h4 {
-            color: #d32f2f;
-            margin-top: 0;
-        }
-    </style>
+  <title>エナガ・SAPPORO支援記録システム v3.5</title>
+  <meta charset="utf-8" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>📝</text></svg>">
+  <style>
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #00bcd4 0%, #26c6da 50%, #4dd0e1 100%);
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+    .header {
+      background: linear-gradient(45deg, #00838f, #0097a7);
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 2.5em;
+      font-weight: 300;
+    }
+    .header p {
+      margin: 10px 0 0 0;
+      opacity: 0.9;
+      font-size: 1.1em;
+    }
+    .form-section {
+      padding: 40px;
+    }
+    .form-group {
+      margin-bottom: 25px;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #2c3e50;
+      font-size: 1.1em;
+    }
+    textarea {
+      width: 100%;
+      min-height: 200px;
+      padding: 15px;
+      border: 2px solid #e8e8e8;
+      border-radius: 8px;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      line-height: 1.5;
+      resize: vertical;
+      transition: border-color 0.3s ease;
+    }
+    textarea:focus {
+      outline: none;
+      border-color: #00bcd4;
+      box-shadow: 0 0 0 3px rgba(0, 188, 212, 0.1);
+    }
+    .btn {
+      background: linear-gradient(45deg, #00838f, #0097a7);
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 1.1em;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+      font-weight: 600;
+      display: block;
+      margin: 20px auto;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+    .instructions {
+      background: #e8f6f3;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 25px;
+      border-left: 4px solid #27ae60;
+    }
+    .instructions h3 {
+      margin-top: 0;
+      color: #27ae60;
+      font-weight: bold;
+    }
+    .instructions p {
+      color: #2c3e50;
+      font-weight: 500;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>エナガ・SAPPORO</h1>
-            <p>支援記録補助システム v3.5</p>
-        </div>
-        
-        <div class="form-section">
-            <div class="instructions">
-                <h3>📋 使用方法</h3>
-                <p><strong>1. LINEのやり取りをコピーして下のテキストエリアに貼り付けてください</strong></p>
-                <p style="margin-left: 15px;">▶ 支援記録を作成したい日付の、作業開始～作業終了までの全LINEを選択してください。</p>
-                <p style="margin-left: 15px;">▶ 日付・時間からコピーをしてください。誤って前日分や、当日途中分の分を貼り付けた<br>　　場合、正しくない結果が表示される可能性があります</p>
-                
-                <p><strong>2. 「支援記録を生成」ボタンをクリック</strong></p>
-                
-                <p><strong>3. 生成された記録をコピーしてご利用ください</strong></p>
-                <p style="margin-left: 15px;">▶ あくまでも入力補助ツールです。誤りがないかを必ずチェックし、不適切な表現や誤った<br>　　結果が表示されている箇所については、手動で直してからknowbeへ記録してください</p>
-            </div>
-            
-            <div class="form-group">
-                <label for="lineData">LINEデータ入力:</label>
-                <textarea id="lineData" placeholder="LINEのやり取りをここに貼り付けてください...
+  <div class="container">
+    <div class="header">
+      <h1>エナガ・SAPPORO</h1>
+      <p>支援記録補助システム v3.5</p>
+    </div>
+
+    <div class="form-section">
+      <div class="instructions">
+        <h3>📋 使用方法</h3>
+        <p><strong>1. LINEのやり取りをコピーして下のテキストエリアに貼り付けてください</strong></p>
+        <p style="margin-left: 15px;">▶ 支援記録を作成したい日付の、作業開始～作業終了までの全LINEを選択してください。</p>
+        <p style="margin-left: 15px;">▶ 日付・時間からコピーをしてください。誤って前日分や、当日途中分の分を貼り付けた<br>　　場合、正しくない結果が表示される可能性があります</p>
+        <p><strong>2. 「支援記録を生成」ボタンをクリック</strong></p>
+        <p><strong>3. 生成された記録をコピーしてご利用ください</strong></p>
+        <p style="margin-left: 15px;">▶ あくまでも入力補助ツールです。誤りがないかを必ずチェックし、不適切な表現や誤った<br>　　結果が表示されている箇所については、手動で直してからknowbeへ記録してください</p>
+      </div>
+
+      <div class="form-group">
+        <label for="lineData">LINEデータ入力:</label>
+        <textarea id="lineData" placeholder="LINEのやり取りをここに貼り付けてください...
 
 例:
 2025-06-20 09:59 利用者名 １０時に作業始めます 体調良です
 2025-06-20 10:10 支援員名 おはようございます！！..."></textarea>
-            </div>
-            
-            <button class="btn" onclick="generateRecord()">📝 支援記録を生成</button>
-            
-            <div class="loading" id="loading">
-                <div class="spinner"></div>
-                <p>支援記録を生成中...</p>
-            </div>
-            
-            <div id="result" class="result" style="display: none;">
-                <h3>✅ 生成された支援記録</h3>
-                <div id="recordOutput"></div>
-                <button class="btn" onclick="copyResult()" style="margin-top: 15px;">📋 コピー</button>
-            </div>
-        </div>
+      </div>
+
+      <button class="btn" onclick="alert('ここに支援記録生成機能を実装')">📝 支援記録を生成</button>
     </div>
-
-    <script>
-        console.log("エナガ・SAPPORO支援記録システム v3.5 開始");
-        
-        // OpenAI APIキーは含めません（環境変数で安全に管理予定）
-
-        
-        // 利用者データベース（完全版）
-        const userWorkData = {
-            '熱田政美': ['軽作業（封筒作成）'],
-            '阿部智美': ['軽作業（QRコード切り貼り）'],
-            '嵐征亜': ['PC作業（データ入力）名刺'],
-            '稲田真弓': ['チラシ作成', '軽作業（折り紙）'],
-            '大内さえ子': ['ハンドメイド（刺し子）'],
-            '大内道代': ['ハンドメイド（刺し子）'],
-            '小倉育代': ['PC作業（データ入力）納品書'],
-            '小幡文則': ['軽作業（QRコード切り貼り）'],
-            '河野有香': ['軽作業（封筒作成）', '軽作業（QRコード切り貼り）'],
-            '児玉京子': ['軽作業（折り紙）'],
-            '小向玲夢': ['PC作業（データ入力）納品書'],
-            '紺谷光樹': ['PC作業（データ入力）納品書'],
-            '佐々木奈菜': ['PC作業（データ入力）納品書', '軽作業（折り紙）'],
-            '白鳥和香菜': ['軽作業（QRコード切り貼り）'],
-            '鈴木心曖': ['PC作業（データ入力）納品書', '軽作業（折り紙）', '消しゴムハンコ', '模造紙'],
-            '髙橋清孝': ['PC作業（データ入力）納品書', '軽作業（折り紙）', '観葉植物栽培'],
-            '高橋節子': ['軽作業（折り紙）'],
-            '千棒神奈': ['PC作業（データ入力）納品書'],
-            '堤京子': ['ハンドメイド（編み物）'],
-            '椿三和': ['ハンドメイド（刺し子）'],
-            '長内由美': ['チラシ作成', '軽作業（折り紙）'],
-            '畑中省吾': ['PC作業（データ入力）納品書', 'ハンドメイド（編み物）', '観葉植物栽培'],
-            '藤原聡美': ['軽作業（折り紙）'],
-            '蓑島恵理': ['PC作業（データ入力）納品書', 'イラスト'],
-            '宮田優奈': ['PC作業（データ入力）納品書'],
-            '村上綾': ['PC作業（データ入力）納品書'],
-            '村上瑞穂': ['PC作業（データ入力）納品書'],
-            '山中和真': ['PC作業（データ入力）納品書']
-        };
-
-        const lineNameToRealName = {
-            'まさみ': '熱田政美',
-            'とも': '阿部智美',
-            '嵐征亜': '嵐征亜',
-            'さくら': '稲田真弓',
-            '卯辰さえ子': '大内さえ子',
-            'みっちょん': '大内道代',
-            'いくぴっちゃん': '小倉育代',
-            '小幡　文則': '小幡文則',
-            'こうのゆか': '河野有香',
-            '京子': '児玉京子',
-            'rimu': '小向玲夢',
-            '谷 ひろし': '紺谷光樹',
-            'n..': '佐々木奈菜',
-            'Waka': '白鳥和香菜',
-            '心曖': '鈴木心曖',
-            '高橋': '髙橋清孝',
-            '高橋節子': '高橋節子',
-            'ぴー': '千棒神奈',
-            '堤　京子': '堤京子',
-            'みわ': '椿三和',
-            '長内由美': '長内由美',
-            'しょう': '畑中省吾',
-            'サクラ🌸🌸': '藤原聡美',
-            'eri': '蓑島恵理',
-            'ゆう': '宮田優奈',
-            '綾': '村上綾',
-            '瑞穂': '村上瑞穂',
-            'KAZUMA': '山中和真'
-        };
-
-        const staffNameMap = {
-            'えじま': '江島',
-            'よこはま': '横濱', 
-            'おおくぼ': '大久保'
-        };
-
-        // Claude API呼び出し関数
-        async function callClaudeAPI(prompt) {
-            const response = await fetch('https://api.anthropic.com/v1/messages', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-api-key': CLAUDE_API_KEY,
-                    'anthropic-version': '2023-06-01'
-                },
-                body: JSON.stringify({
-                    model: 'claude-3-5-haiku-20241022',
-                    max_tokens: 200,
-                    messages: [{
-                        role: 'user',
-                        content: prompt
-                    }]
-                })
-            });
-
-            if (!response.ok) {
-                throw new Error(`API Error: ${response.status}`);
-            }
-
-            const data = await response.json();
-            return data.content[0].text;
-        }
-
-        // 利用者特定
-        function identifyUser(lineData) {
-            if (lineData.includes('瑞穂')) return '村上瑞穂';
-            
-            for (const [lineName, realName] of Object.entries(lineNameToRealName)) {
-                if (lineData.includes(lineName)) return realName;
-            }
-            
-            return null;
-        }
-
-        // 日付抽出
-        function extractDates(lineData) {
-            const dateMatches = lineData.match(/(\d{4}-\d{2}-\d{2})/g);
-            return dateMatches ? [...new Set(dateMatches)].sort() : [];
-        }
-
-        // 体調判定
-        function determineHealthStatus(lineData) {
-            if (/頭痛.*?倦怠感|倦怠感.*?頭痛/i.test(lineData)) return '頭痛';
-            if (/体調.*?昨日より.*?良|体調.*?良くなっ/i.test(lineData)) return '良好';
-            if (/疲労|バテ/i.test(lineData)) return '疲労';
-            return '普通';
-        }
-
-        // 時間抽出
-        function extractWorkTimes(lineData, targetDate) {
-            const lines = lineData.split('\n');
-            const dayLines = lines.filter(line => line.includes(targetDate));
-            
-            let startTime = '10:00';
-            let endTime = '15:00';
-            
-            for (const line of dayLines) {
-                const timeMatch = line.match(/(\d{2}):(\d{2})/);
-                if (!timeMatch) continue;
-                
-                const time = `${timeMatch[1]}:${timeMatch[2]}`;
-                
-                if (/作業開始|参加します/i.test(line)) startTime = time;
-                if (/終了|お疲れ/i.test(line)) endTime = time;
-            }
-            
-            return { startTime, endTime };
-        }
-
-        // スタッフ抽出
-        function extractStaff(lineData) {
-            for (const [key, value] of Object.entries(staffNameMap)) {
-                if (lineData.includes(key)) return value;
-            }
-            return '職員';
-        }
-
-        // 曜日取得
-        function getDayOfWeek(dateStr) {
-            const date = new Date(dateStr);
-            const days = ['日', '月', '火', '水', '木', '金', '土'];
-            return days[date.getDay()];
-        }
-
-        // プロンプト作成
-        function createPrompt(lineData, phase, userName) {
-            return `以下のLINEやり取りから、福祉支援記録の「${phase}」部分を自然な日本語で生成してください。
-
-【利用者】${userName}
-【LINEデータ】
-${lineData}
-
-【要件】
-- ${phase === 'start' ? '開始連絡' : phase === 'work' ? '作業中連絡' : '終了連絡'}の内容のみ
-- 実際のやり取りを反映
-- 客観的で適切な表現
-- 100文字程度
-
-実際の発言内容を分析して記録を作成してください。`;
-        }
-
-        // メイン処理
-        async function generateRecord() {
-            const lineData = document.getElementById('lineData').value.trim();
-            
-            if (!lineData) {
-                alert('LINEデータを入力してください');
-                return;
-            }
-            
-            document.getElementById('loading').style.display = 'block';
-            document.getElementById('result').style.display = 'none';
-            
-            setTimeout(async () => {
-                try {
-                    const userName = identifyUser(lineData);
-                    if (!userName) {
-                        throw new Error('利用者を特定できませんでした');
-                    }
-                    
-                    const dates = extractDates(lineData);
-                    const healthStatus = determineHealthStatus(lineData);
-                    const staff = extractStaff(lineData);
-                    
-                    let warningHtml = '';
-                    if (/中断.*?させて|頭痛.*?倦怠感/i.test(lineData)) {
-                        warningHtml = `
-                            <div class="alert-box">
-                                <h4>🚨 欠席時対応加算の可能性</h4>
-                                <p>体調不良による作業中断・欠席が検出されました。</p>
-                            </div>
-                        `;
-                    }
-                    
-                    let recordsHtml = '';
-                    const targetDates = dates.length > 0 ? dates : [new Date().toISOString().split('T')[0]];
-                    
-                    for (const date of targetDates) {
-                        const dayOfWeek = getDayOfWeek(date);
-                        const times = extractWorkTimes(lineData, date);
-                        
-                        let startDesc, workDesc, endDesc;
-                        
-                        try {
-                            startDesc = await callClaudeAPI(createPrompt(lineData, 'start', userName));
-                            workDesc = await callClaudeAPI(createPrompt(lineData, 'work', userName));
-                            endDesc = await callClaudeAPI(createPrompt(lineData, 'end', userName));
-                        } catch (error) {
-                            // API失敗時のフォールバック
-                            startDesc = '本人より作業開始の報告があった。支援員より適切な声かけを実施。';
-                            workDesc = '支援中の特段の連絡はなく、安定した作業進行が継続されたと判断される。';
-                            endDesc = '本人より作業終了の報告があった。支援員より労いの言葉を実施。';
-                        }
-                        
-                        recordsHtml += `
-                            <div style="margin-bottom: 25px; padding: 15px; border-left: 4px solid #00bcd4; background: white;">
-                                <p><strong>✅ ${date}（${dayOfWeek}）${userName} 支援記録</strong></p>
-                                <p><strong>通所区分：</strong>通所</p>
-                                <p><strong>作業時間：</strong>${times.startTime} ～ ${times.endTime}</p>
-                                <p><strong>作業内容：</strong>PC作業（データ入力）納品書</p>
-                                <p><strong>利用者状況：</strong>体調：${healthStatus}／本人から体調について報告があった。</p>
-                                
-                                <p style="margin-top: 15px;"><strong>※knowbeの仕様上【通所】表記だが、【在宅】にて支援実施</strong></p>
-                                
-                                <p><strong>■開始連絡</strong> ${times.startTime}［ 連絡手段：LINE ／ 対応職員：${staff} ］<br>
-                                ${startDesc}</p>
-                                
-                                <p><strong>■作業中連絡</strong><br>
-                                ${workDesc}</p>
-                                
-                                <p><strong>■終了連絡</strong> ${times.endTime}［ 連絡手段：LINE ／ 対応職員：${staff} ］<br>
-                                ${endDesc}</p>
-                            </div>
-                        `;
-                    }
-                    
-                    document.getElementById('loading').style.display = 'none';
-                    document.getElementById('result').style.display = 'block';
-                    
-                    document.getElementById('recordOutput').innerHTML = warningHtml + `
-                        <div style="font-family: 'MS Gothic', monospace; font-size: 14px; line-height: 1.6;">
-                            <h3>${userName}さん 支援記録</h3>
-                            ${recordsHtml}
-                        </div>
-                    `;
-                    
-                } catch (error) {
-                    document.getElementById('loading').style.display = 'none';
-                    alert(`エラーが発生しました: ${error.message}`);
-                }
-            }, 1500);
-        }
-        
-        function copyResult() {
-            const resultDiv = document.getElementById('recordOutput');
-            const textContent = resultDiv.textContent || resultDiv.innerText;
-            
-            navigator.clipboard.writeText(textContent).then(() => {
-                alert('コピーしました！');
-            }).catch(() => {
-                const textarea = document.createElement('textarea');
-                textarea.value = textContent;
-                document.body.appendChild(textarea);
-                textarea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textarea);
-                alert('コピーしました！');
-            });
-        }
-    </script>
+  </div>
 </body>
 </html>
